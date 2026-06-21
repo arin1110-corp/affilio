@@ -21,6 +21,9 @@ class AdminSettingController extends Controller
             'site_tagline' => 'nullable|string|max:255',
             'site_description' => 'nullable|string',
 
+            'site_logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'site_favicon' => 'nullable|image|mimes:jpg,jpeg,png,webp,ico|max:1024',
+
             'primary_color' => 'required|string|max:20',
             'secondary_color' => 'required|string|max:20',
             'base_color' => 'required|string|max:20',
@@ -46,7 +49,23 @@ class AdminSettingController extends Controller
             $setting = new AffilioSetting();
         }
 
-        $setting->fill($request->all());
+        $data = $request->except(['site_logo', 'site_favicon']);
+
+        if ($request->hasFile('site_logo')) {
+            $file = $request->file('site_logo');
+            $name = 'logo-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/setting'), $name);
+            $data['site_logo'] = 'uploads/setting/' . $name;
+        }
+
+        if ($request->hasFile('site_favicon')) {
+            $file = $request->file('site_favicon');
+            $name = 'favicon-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/setting'), $name);
+            $data['site_favicon'] = 'uploads/setting/' . $name;
+        }
+
+        $setting->fill($data);
         $setting->save();
 
         return back()->with('success', 'Setting website berhasil diperbarui.');

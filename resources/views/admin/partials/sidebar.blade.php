@@ -30,6 +30,26 @@
             <span>💎</span>
             Paket
         </a>
+        <a href="{{ route('admin.users') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+    {{ request()->routeIs('admin.users*') ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-900 text-slate-300' }}">
+            <span>👤</span>
+            User
+        </a>
+
+        <a href="{{ route('admin.stores') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+    {{ request()->routeIs('admin.stores*') ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-900 text-slate-300' }}">
+            <span>🏪</span>
+            Store
+        </a>
+
+        <a href="{{ route('admin.orders') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-2xl transition
+    {{ request()->routeIs('admin.orders*') ? 'bg-blue-600 text-white shadow-lg' : 'hover:bg-slate-900 text-slate-300' }}">
+            <span>💳</span>
+            Order
+        </a>
     </nav>
 
     <div class="mt-8 pt-6 border-t border-white/10">

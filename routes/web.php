@@ -12,6 +12,9 @@ use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\PublicStoreController;
+use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminStoreController;
+use App\Http\Controllers\AdminOrderController;
 
 Route::get('/', [PublicHomeController::class, 'index'])->name('home');
 Route::get('/pricing', [PublicHomeController::class, 'pricing'])->name('pricing');
@@ -30,6 +33,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/package', [AdminPackageController::class, 'index'])->name('admin.package');
         Route::post('/package/store', [AdminPackageController::class, 'store'])->name('admin.package.store');
         Route::post('/package/update', [AdminPackageController::class, 'update'])->name('admin.package.update');
+        Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
+        Route::post('/users/{uid}/toggle', [AdminUserController::class, 'toggle'])->name('admin.users.toggle');
+
+        Route::get('/stores', [AdminStoreController::class, 'index'])->name('admin.stores');
+        Route::post('/stores/{uid}/toggle', [AdminStoreController::class, 'toggle'])->name('admin.stores.toggle');
+
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders');
     });
 });
 
@@ -61,3 +71,5 @@ Route::prefix('user')->group(function () {
 Route::domain('{username}.affilio.store')->group(function () {
     Route::get('/', [PublicStoreController::class, 'show'])->name('store.show');
 });
+Route::get('/s/{username}', [PublicStoreController::class, 'show'])
+    ->name('store.local');
